@@ -5,14 +5,21 @@ import * as StyleSheet from '../utils/StyleSheet';
 import {
   Button,
   IconButton,
+  Markdown,
   ScreenContainer,
   Shadow,
+  SwipeableItem,
+  TabView,
+  TabViewItem,
   withTheme,
 } from '@draftbit/ui';
+import { H1, H2, H3, H4, H5, H6 } from '@expo/html-elements';
+import { FlashList } from '@shopify/flash-list';
 import { BlurView } from 'expo-blur';
 import {
   KeyboardAvoidingView,
   ScrollView,
+  Text,
   useWindowDimensions,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -24,55 +31,36 @@ const ZhangyuScreen = props => {
 
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
-      <BlurView
-        style={StyleSheet.applyWidth(
-          StyleSheet.compose(GlobalStyles.BlurViewStyles(theme)['Blur View'], {
-            borderColor: theme.colors['Error'],
-            borderRadius: 10,
-            borderWidth: 3,
-          }),
-          dimensions.width
-        )}
-        intensity={100}
-        tint={'light'}
-      >
-        <ScrollView
-          style={StyleSheet.applyWidth(
-            { height: 0, width: 200 },
-            dimensions.width
-          )}
-          contentContainerStyle={StyleSheet.applyWidth(
-            {
-              borderColor: theme.colors['Custom Color_12'],
-              borderRadius: 10,
-              borderWidth: 100,
-              margin: 30,
-            },
-            dimensions.width
-          )}
-          bounces={true}
-          horizontal={true}
-          showsHorizontalScrollIndicator={true}
-          showsVerticalScrollIndicator={true}
-        >
-          <Button
-            style={StyleSheet.applyWidth(
-              GlobalStyles.ButtonStyles(theme)['Button'],
-              dimensions.width
-            )}
-            title={'Get Started'}
-          />
-          <IconButton icon={'FontAwesome/photo'} size={32} />
-        </ScrollView>
-        <KeyboardAvoidingView
-          style={StyleSheet.applyWidth(
-            { borderWidth: 5, height: 50, margin: 40 },
-            dimensions.width
-          )}
-          behavior={'padding'}
-          enabled={true}
-        />
-      </BlurView>
+      <FlashList
+        renderItem={({ item }) => {
+          const flashListData = item;
+          return (
+            <SwipeableItem
+              style={StyleSheet.applyWidth(
+                GlobalStyles.SwipeableItemStyles(theme)['Swipeable Item'],
+                dimensions.width
+              )}
+              closeOnPress={true}
+              friction={20}
+              swipeActivationPercentage={80}
+              swipeToClosePercent={50}
+              swipeToOpenPercent={50}
+            />
+          );
+        }}
+        data={[]}
+        listKey={'zC3JOZb1'}
+        keyExtractor={flashListData =>
+          flashListData?.id ||
+          flashListData?.uuid ||
+          JSON.stringify(flashListData)
+        }
+        estimatedItemSize={50}
+        numColumns={1}
+        onEndReachedThreshold={0.5}
+        showsHorizontalScrollIndicator={true}
+        showsVerticalScrollIndicator={true}
+      />
     </ScreenContainer>
   );
 };

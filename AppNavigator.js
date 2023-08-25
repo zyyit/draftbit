@@ -9,7 +9,9 @@ import theme from './themes/DraftbitTheme.js';
 import LinkingConfiguration from './LinkingConfiguration.js';
 
 import BlankCopyScreen from './screens/BlankCopyScreen';
-import ChengpengScreen from './screens/ChengpengScreen';
+import ChengpengContainersScreen from './screens/ChengpengContainersScreen';
+import ChengpengUtilitiesScreen from './screens/ChengpengUtilitiesScreen';
+import DuchangweiSwiperScreen from './screens/DuchangweiSwiperScreen';
 import HanxiaoScreen from './screens/HanxiaoScreen';
 import HomeScreen from './screens/HomeScreen';
 import LOGINScreen from './screens/LOGINScreen';
@@ -137,10 +139,24 @@ export default function RootAppNavigator() {
           }}
         />
         <Stack.Screen
-          name="ChengpengScreen"
-          component={ChengpengScreen}
+          name="ChengpengUtilitiesScreen"
+          component={ChengpengUtilitiesScreen}
           options={{
-            title: 'chengpeng',
+            title: 'chengpeng(Utilities)',
+          }}
+        />
+        <Stack.Screen
+          name="ChengpengContainersScreen"
+          component={ChengpengContainersScreen}
+          options={{
+            title: 'chengpeng(Containers)',
+          }}
+        />
+        <Stack.Screen
+          name="DuchangweiSwiperScreen"
+          component={DuchangweiSwiperScreen}
+          options={{
+            title: 'duchangwei(Swiper)',
           }}
         />
       </Stack.Navigator>

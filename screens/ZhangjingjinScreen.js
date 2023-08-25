@@ -4,6 +4,7 @@ import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import showAlertUtil from '../utils/showAlert';
 import {
   Button,
   Icon,
@@ -25,16 +26,17 @@ const ZhangjingjinScreen = props => {
   const setGlobalVariableValue = GlobalVariables.useSetValue();
 
   // }
-  const login_check = (Variables, setGlobalVariableValue) => {
+  const loginCheck = (Variables, setGlobalVariableValue) => {
     // Type the code for the body of your function or hook here.
     // Functions can be triggered via Button/Touchable actions.
     // Hooks are run per ReactJS rules.
     console.log('进入函数');
-    console.log(name);
-    console.log(password);
-    if (name == '' || password == '') {
-      login_flg = false;
-      console.log('未输入');
+    console.log('name: ' + nameStr);
+    console.log('password: ' + passwordStr);
+    if (nameStr == '' || nameStr == '') {
+      setLoginFlg(true);
+    } else {
+      setLoginFlg(false);
     }
     /* String line breaks are accomplished with backticks ( example: `line one
 line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
@@ -42,12 +44,20 @@ line two` ) and will not work with special characters inside of quotes ( example
 
   const { theme } = props;
 
+  const [ERRMSG, setERRMSG] = React.useState('账号或密码不能为空');
+  const [loginFlg, setLoginFlg] = React.useState(false);
+  const [nameStr, setNameStr] = React.useState('');
+  const [passwordStr, setPasswordStr] = React.useState('');
+
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
       {/* Background */}
       <ImageBackground
         style={StyleSheet.applyWidth(
-          GlobalStyles.ImageBackgroundStyles(theme)['Image Background'],
+          StyleSheet.compose(
+            GlobalStyles.ImageBackgroundStyles(theme)['Image Background'],
+            { position: 'relative' }
+          ),
           dimensions.width
         )}
         resizeMode={'cover'}
@@ -90,7 +100,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                     alignItems: 'stretch',
                     flexDirection: 'column',
                     flexWrap: 'nowrap',
-                    marginLeft: 15,
+                    marginLeft: 20,
                     marginTop: 30,
                     overflow: 'hidden',
                     position: 'relative',
@@ -116,7 +126,13 @@ line two` ) and will not work with special characters inside of quotes ( example
               <Button
                 onPress={() => {
                   try {
-                    login_check(Variables, setGlobalVariableValue);
+                    loginCheck(Variables, setGlobalVariableValue);
+
+                    showAlertUtil({
+                      title: 'ERROR',
+                      message: ERRMSG,
+                      buttonText: 'OK',
+                    });
                   } catch (err) {
                     console.error(err);
                   }
@@ -131,7 +147,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       overflow: 'hidden',
                       position: 'absolute',
                       top: 150,
-                      width: 250,
+                      width: 260,
                     }
                   ),
                   dimensions.width
@@ -142,10 +158,7 @@ line two` ) and will not work with special characters inside of quotes ( example
               <NumberInput
                 onChangeText={newPasswordValue => {
                   try {
-                    setGlobalVariableValue({
-                      key: 'password',
-                      value: newPasswordValue,
-                    });
+                    setPasswordStr(newPasswordValue);
                   } catch (err) {
                     console.error(err);
                   }
@@ -162,12 +175,12 @@ line two` ) and will not work with special characters inside of quotes ( example
                       paddingLeft: 35,
                       position: 'absolute',
                       top: 70,
-                      width: 250,
+                      width: 260,
                     }
                   ),
                   dimensions.width
                 )}
-                value={Constants['password']}
+                value={passwordStr}
                 changeTextDelay={500}
                 editable={true}
                 placeholder={'密码'}
@@ -176,10 +189,6 @@ line two` ) and will not work with special characters inside of quotes ( example
               <TextInput
                 onChangeText={newNameValue => {
                   try {
-                    setGlobalVariableValue({
-                      key: 'name',
-                      value: newNameValue,
-                    });
                   } catch (err) {
                     console.error(err);
                   }
@@ -192,14 +201,14 @@ line two` ) and will not work with special characters inside of quotes ( example
                       borderRadius: 12,
                       height: 40,
                       overflow: 'hidden',
-                      paddingLeft: 35,
+                      paddingLeft: 40,
                       position: 'absolute',
-                      width: 250,
+                      width: 260,
                     }
                   ),
                   dimensions.width
                 )}
-                value={Constants['name']}
+                value={nameStr}
                 placeholder={'账号/邮箱'}
                 autoCapitalize={'none'}
                 changeTextDelay={500}
@@ -235,7 +244,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 style={StyleSheet.applyWidth(
                   {
                     marginLeft: 5,
-                    marginTop: 68,
+                    marginTop: 77,
                     overflow: 'hidden',
                     position: 'absolute',
                   },

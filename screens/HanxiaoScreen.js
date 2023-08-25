@@ -1,109 +1,196 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
+import * as DraftbitExampleApi from '../apis/DraftbitExampleApi.js';
+import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
-import showAlertUtil from '../utils/showAlert';
-import { Button, ScreenContainer, TextInput, withTheme } from '@draftbit/ui';
+import {
+  Button,
+  Link,
+  ScreenContainer,
+  Swiper,
+  SwiperItem,
+  TextInput,
+  withTheme,
+} from '@draftbit/ui';
+import { useIsFocused } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import { Text, View, useWindowDimensions } from 'react-native';
+import * as Linking from 'expo-linking';
+import {
+  ActivityIndicator,
+  ImageBackground,
+  Platform,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import { Fetch } from 'react-request';
 
 const HanxiaoScreen = props => {
   const dimensions = useWindowDimensions();
 
   const { theme } = props;
+  const { navigation } = props;
 
   const [checkboxValue, setCheckboxValue] = React.useState(false);
   const [datePickerValue, setDatePickerValue] = React.useState(new Date());
+  const [datePickerValue2, setDatePickerValue2] = React.useState(new Date());
+  const [numberInputValue, setNumberInputValue] = React.useState('');
+  const [pickerValue, setPickerValue] = React.useState('');
   const [radioButtonGroupValue, setRadioButtonGroupValue] = React.useState('');
+  const [styledTextFieldValue, setStyledTextFieldValue] = React.useState('');
   const [switchValue, setSwitchValue] = React.useState(false);
+  const [text1Val, setText1Val] = React.useState('');
   const [textAreaValue, setTextAreaValue] = React.useState('');
   const [textAreaValue2, setTextAreaValue2] = React.useState('');
   const [textAreaValue3, setTextAreaValue3] = React.useState('');
   const [textAreaValue4, setTextAreaValue4] = React.useState('');
+  const [textAreaValue5, setTextAreaValue5] = React.useState('');
   const [textInputValue, setTextInputValue] = React.useState('');
   const [textInputValue2, setTextInputValue2] = React.useState('');
+  const [textInputValue3, setTextInputValue3] = React.useState('');
 
   return (
     <ScreenContainer hasSafeArea={true} scrollable={false}>
+      <DraftbitExampleApi.FetchDoctorsListGET count={6}>
+        {({ loading, error, data, refetchDoctorsList }) => {
+          const fetchData = data?.json;
+          if (loading) {
+            return <ActivityIndicator />;
+          }
+
+          if (error || data?.status < 200 || data?.status >= 300) {
+            return <ActivityIndicator />;
+          }
+
+          return (
+            <View>
+              <FlashList
+                renderItem={({ item }) => {
+                  const flashListData = item;
+                  return (
+                    <View
+                      style={StyleSheet.applyWidth(
+                        { flex: 1 },
+                        dimensions.width
+                      )}
+                    >
+                      <TextInput
+                        onFocus={() => {
+                          const textInputValue = undefined;
+                          try {
+                            navigation.goBack();
+                          } catch (err) {
+                            console.error(err);
+                          }
+                        }}
+                        style={StyleSheet.applyWidth(
+                          GlobalStyles.TextInputStyles(theme)['Text Area'],
+                          dimensions.width
+                        )}
+                        changeTextDelay={500}
+                        defaultValue={flashListData?.city}
+                        multiline={true}
+                        numberOfLines={4}
+                        placeholder={
+                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+                        }
+                        textAlignVertical={'top'}
+                      />
+                    </View>
+                  );
+                }}
+                data={fetchData}
+                listKey={'SnGasEry'}
+                keyExtractor={flashListData =>
+                  flashListData?.id ||
+                  flashListData?.uuid ||
+                  JSON.stringify(flashListData)
+                }
+                contentContainerStyle={StyleSheet.applyWidth(
+                  { backgroundColor: theme.colors['Secondary'] },
+                  dimensions.width
+                )}
+                estimatedItemSize={10}
+                horizontal={false}
+                inverted={false}
+                numColumns={2}
+                onEndReachedThreshold={0.5}
+                showsHorizontalScrollIndicator={true}
+                showsVerticalScrollIndicator={true}
+              />
+              <View>
+                <Button
+                  onPress={() => {
+                    try {
+                      navigation.navigate('LOGINScreen', {
+                        user: 'lm',
+                        ok: 'yes',
+                      });
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                  style={StyleSheet.applyWidth(
+                    GlobalStyles.ButtonStyles(theme)['Button'],
+                    dimensions.width
+                  )}
+                  title={'页面跳转'}
+                />
+                <Link
+                  style={StyleSheet.applyWidth(
+                    GlobalStyles.LinkStyles(theme)['Link'],
+                    dimensions.width
+                  )}
+                  title={'Get Started'}
+                />
+                {/* Button 2 */}
+                <Button
+                  onPress={() => {
+                    try {
+                      Linking.openURL('undefined');
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                  style={StyleSheet.applyWidth(
+                    GlobalStyles.ButtonStyles(theme)['Button'],
+                    dimensions.width
+                  )}
+                  title={'Get Started'}
+                />
+              </View>
+            </View>
+          );
+        }}
+      </DraftbitExampleApi.FetchDoctorsListGET>
       <View>
-        <>
-          <FlashList
-            renderItem={({ item }) => {
-              const flashListData = item;
-              return null;
-            }}
-            data={[]}
-            listKey={'SnGasEry'}
-            keyExtractor={flashListData =>
-              flashListData?.id ||
-              flashListData?.uuid ||
-              JSON.stringify(flashListData)
-            }
-            estimatedItemSize={50}
-            numColumns={1}
-            onEndReachedThreshold={0.5}
-            showsHorizontalScrollIndicator={true}
-            showsVerticalScrollIndicator={true}
-          />
-          <TextInput
-            onChangeText={newTextAreaValue => {
-              const textInputValue = newTextAreaValue;
-              try {
-                setTextAreaValue4(newTextAreaValue);
-              } catch (err) {
-                console.error(err);
-              }
-            }}
-            onChangeTextDelayed={newTextAreaValue => {
-              const textInputValue = newTextAreaValue;
-              try {
-                showAlertUtil({
-                  title: 'APP',
-                  message: newTextAreaValue,
-                  buttonText: 'OK',
-                });
-              } catch (err) {
-                console.error(err);
-              }
-            }}
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextInputStyles(theme)['Text Area'],
-              dimensions.width
-            )}
-            value={textAreaValue4}
-            changeTextDelay={500}
-            multiline={true}
-            numberOfLines={4}
-            placeholder={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
-            }
-            textAlignVertical={'top'}
-          />
-          {/* Button 2 */}
-          <Button
-            style={StyleSheet.applyWidth(
-              GlobalStyles.ButtonStyles(theme)['Button'],
-              dimensions.width
-            )}
-            title={'Get Started'}
-          />
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
+        <Swiper
+          style={StyleSheet.applyWidth(
+            GlobalStyles.SwiperStyles(theme)['Swiper'],
+            dimensions.width
+          )}
+          dotActiveColor={theme.colors.primary}
+          dotColor={theme.colors.light}
+          dotsTouchable={true}
+        >
+          <SwiperItem
+            style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
           >
-            {'Double click me to edit 👀'}
-          </Text>
-          <Button
-            style={StyleSheet.applyWidth(
-              GlobalStyles.ButtonStyles(theme)['Button'],
-              dimensions.width
-            )}
-            title={'Get Started'}
+            <ImageBackground
+              style={StyleSheet.applyWidth(
+                GlobalStyles.ImageBackgroundStyles(theme)['Image Background'],
+                dimensions.width
+              )}
+              resizeMode={'cover'}
+              source={Images.Logo}
+            />
+          </SwiperItem>
+          {/* Swiper Item 2 */}
+          <SwiperItem
+            style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
           />
-        </>
+        </Swiper>
       </View>
     </ScreenContainer>
   );

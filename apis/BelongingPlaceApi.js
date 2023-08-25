@@ -21,13 +21,11 @@ export const useGetBelongingPlaceGET = (
   { refetchInterval, handlers = {} } = {}
 ) => {
   const Constants = GlobalVariables.useValues();
-  const queryClient = useQueryClient();
   return useQuery(
-    ['belongingPlace', args],
+    ['todos', args],
     () => getBelongingPlaceGET(Constants, args, handlers),
     {
       refetchInterval,
-      onSuccess: () => queryClient.invalidateQueries(['belongingPlaces']),
     }
   );
 };

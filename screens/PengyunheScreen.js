@@ -1,12 +1,20 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as BelongingPlaceApi from '../apis/BelongingPlaceApi.js';
+import * as DraftbitExampleApi from '../apis/DraftbitExampleApi.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import { Button, NumberInput, ScreenContainer, withTheme } from '@draftbit/ui';
 import { H4 } from '@expo/html-elements';
-import { Text, View, useWindowDimensions } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import { Fetch } from 'react-request';
 
 const PengyunheScreen = props => {
@@ -98,77 +106,121 @@ const PengyunheScreen = props => {
           title={'查   询'}
         />
       </View>
-      <>
-        {/* result */}
-        <View>
-          {/* prov */}
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
-          >
-            {'省：'}
-            {null}
-          </Text>
-          {/* city */}
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
-          >
-            {'市：'}
-            {null}
-          </Text>
-          {/* name */}
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
-          >
-            {'运营商：'}
-            {null}
-          </Text>
-          {/* areaCode */}
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
-          >
-            {'Double click me to edit 👀'}
-          </Text>
-          {/* postCode */}
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
-          >
-            {'Double click me to edit 👀'}
-          </Text>
-          {/* cityCode */}
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
-          >
-            {'Double click me to edit 👀'}
-          </Text>
-          {/* provCode */}
-          <Text
-            style={StyleSheet.applyWidth(
-              GlobalStyles.TextStyles(theme)['Text'],
-              dimensions.width
-            )}
-          >
-            {'Double click me to edit 👀'}
-          </Text>
-        </View>
-      </>
+
+      <DraftbitExampleApi.FetchDoctorsListGET count={6}>
+        {({ loading, error, data, refetchDoctorsList }) => {
+          const fetchData = data?.json;
+          if (loading) {
+            return <ActivityIndicator />;
+          }
+
+          if (error || data?.status < 200 || data?.status >= 300) {
+            return <ActivityIndicator />;
+          }
+
+          return (
+            <FlatList
+              renderItem={({ item }) => {
+                const listData = item;
+                return (
+                  <>
+                    {/* result */}
+                    <View
+                      style={StyleSheet.applyWidth(
+                        { marginLeft: 10 },
+                        dimensions.width
+                      )}
+                    >
+                      {/* prov */}
+                      <Text
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.TextStyles(theme)['Text'],
+                            { marginTop: 10 }
+                          ),
+                          dimensions.width
+                        )}
+                      >
+                        {'省：'}
+                        {fetchData?.code}
+                      </Text>
+                      {/* name */}
+                      <Text
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.TextStyles(theme)['Text'],
+                            { marginTop: 10 }
+                          ),
+                          dimensions.width
+                        )}
+                      >
+                        {'运营商：'}
+                      </Text>
+                      {/* areaCode */}
+                      <Text
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.TextStyles(theme)['Text'],
+                            { marginTop: 10 }
+                          ),
+                          dimensions.width
+                        )}
+                      >
+                        {'区域代码：'}
+                      </Text>
+                      {/* postCode */}
+                      <Text
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.TextStyles(theme)['Text'],
+                            { marginTop: 10 }
+                          ),
+                          dimensions.width
+                        )}
+                      >
+                        {'邮政编码：'}
+                      </Text>
+                      {/* cityCode */}
+                      <Text
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.TextStyles(theme)['Text'],
+                            { marginTop: 10 }
+                          ),
+                          dimensions.width
+                        )}
+                      >
+                        {'行政编码：'}
+                      </Text>
+                      {/* provCode */}
+                      <Text
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.TextStyles(theme)['Text'],
+                            { marginTop: 10 }
+                          ),
+                          dimensions.width
+                        )}
+                      >
+                        {'省行政编码：'}
+                      </Text>
+                    </View>
+                  </>
+                );
+              }}
+              data={fetchData}
+              listKey={'DahzRYbl'}
+              keyExtractor={listData =>
+                listData?.id || listData?.uuid || JSON.stringify(listData)
+              }
+              numColumns={1}
+              onEndReachedThreshold={0.5}
+              showsHorizontalScrollIndicator={true}
+              showsVerticalScrollIndicator={true}
+            />
+          );
+        }}
+      </DraftbitExampleApi.FetchDoctorsListGET>
     </ScreenContainer>
   );
 };

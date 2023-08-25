@@ -2,6 +2,17 @@ import * as StyleSheet from './utils/StyleSheet';
 
 import Breakpoints from './utils/Breakpoints';
 
+export const AccordionGroupStyles = theme =>
+  StyleSheet.create({
+    Accordion: {
+      fontSize: 16,
+      paddingBottom: 8,
+      paddingLeft: 8,
+      paddingRight: 8,
+      paddingTop: 8,
+    },
+  });
+
 export const ActionSheetItemStyles = theme =>
   StyleSheet.create({ 'Action Sheet Item': { textAlign: 'center' } });
 
@@ -61,9 +72,41 @@ export const DeckSwiperCardStyles = theme =>
 export const FetchStyles = theme =>
   StyleSheet.create({ Fetch: { minHeight: 40 } });
 
+export const H1Styles = theme =>
+  StyleSheet.create({
+    H1: { color: theme.colors.strong, fontSize: 32, fontWeight: 'bold' },
+  });
+
+export const H2Styles = theme =>
+  StyleSheet.create({
+    H2: { color: theme.colors.strong, fontSize: 24, fontWeight: 'bold' },
+  });
+
+export const H3Styles = theme =>
+  StyleSheet.create({
+    H3: { color: theme.colors.strong, fontSize: 18.72, fontWeight: 'bold' },
+  });
+
 export const H4Styles = theme =>
   StyleSheet.create({
     H4: { color: theme.colors.strong, fontSize: 16, fontWeight: 'bold' },
+  });
+
+export const H5Styles = theme =>
+  StyleSheet.create({
+    H5: { color: theme.colors.strong, fontSize: 13.28, fontWeight: 'bold' },
+  });
+
+export const H6Styles = theme =>
+  StyleSheet.create({
+    H6: { color: theme.colors.strong, fontSize: 10.72, fontWeight: 'bold' },
+  });
+
+export const WebViewStyles = theme =>
+  StyleSheet.create({
+    'HTML View': { flex: 1 },
+    'HTML View 2': { flex: 1 },
+    'Web View': { flex: 1 },
   });
 
 export const ImageStyles = theme =>
@@ -71,6 +114,9 @@ export const ImageStyles = theme =>
 
 export const ImageBackgroundStyles = theme =>
   StyleSheet.create({ 'Image Background': { flex: 1 } });
+
+export const LinearGradientStyles = theme =>
+  StyleSheet.create({ 'Linear Gradient': { flex: 1 } });
 
 export const LinkStyles = theme =>
   StyleSheet.create({ Link: { color: theme.colors.primary } });
@@ -94,8 +140,25 @@ export const NumberInputStyles = theme =>
     },
   });
 
-export const SwipeableItemStyles = theme =>
-  StyleSheet.create({ 'Swipeable Item': { overflow: 'hidden' } });
+export const SquareStyles = theme =>
+  StyleSheet.create({
+    Square: {
+      alignItems: 'center',
+      backgroundColor: theme.colors.primary,
+      justifyContent: 'center',
+    },
+  });
+
+export const SurfaceStyles = theme =>
+  StyleSheet.create({ Surface: { minHeight: 40 } });
+
+export const SwipeableItemStyles = theme => StyleSheet.create({});
+
+export const SwiperStyles = theme =>
+  StyleSheet.create({ Swiper: { height: 300, width: '100%' } });
+
+export const TabViewItemStyles = theme =>
+  StyleSheet.create({ 'Tab View Item': { flex: 1 } });
 
 export const TableStyles = theme => StyleSheet.create({ Table: { flex: 1 } });
 
