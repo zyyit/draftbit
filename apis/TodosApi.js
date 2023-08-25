@@ -11,28 +11,28 @@ import { handleResponse, isOkStatus } from '../utils/handleRestApiResponse';
 import usePrevious from '../utils/usePrevious';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 
-export const getBelongingPlaceGET = (Constants, _args, handlers = {}) =>
-  fetch(`https://api.oioweb.cn/api/common/teladress?mobile=13891423651`, {
+export const getTodosGET = (Constants, _args, handlers = {}) =>
+  fetch(`https://example-data.draftbit.com/products/3`, {
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
   }).then(res => handleResponse(res, handlers));
 
-export const useGetBelongingPlaceGET = (
+export const useGetTodosGET = (
   args = {},
   { refetchInterval, handlers = {} } = {}
 ) => {
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ['doctor', args],
-    () => getBelongingPlaceGET(Constants, args, handlers),
+    ['todo', args],
+    () => getTodosGET(Constants, args, handlers),
     {
       refetchInterval,
-      onSuccess: () => queryClient.invalidateQueries(['doctors']),
+      onSuccess: () => queryClient.invalidateQueries(['todos']),
     }
   );
 };
 
-export const FetchGetBelongingPlaceGET = ({
+export const FetchGetTodosGET = ({
   children,
   onData = () => {},
   handlers = {},
@@ -47,7 +47,7 @@ export const FetchGetBelongingPlaceGET = ({
     data,
     error,
     refetch,
-  } = useGetBelongingPlaceGET(
+  } = useGetTodosGET(
     {},
     { refetchInterval, handlers: { onData, ...handlers } }
   );
@@ -64,5 +64,5 @@ export const FetchGetBelongingPlaceGET = ({
       console.error(error);
     }
   }, [error]);
-  return children({ loading, data, error, refetchGetBelongingPlace: refetch });
+  return children({ loading, data, error, refetchGetTodos: refetch });
 };

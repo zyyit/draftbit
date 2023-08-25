@@ -9,7 +9,8 @@ import theme from './themes/DraftbitTheme.js';
 import LinkingConfiguration from './LinkingConfiguration.js';
 
 import BlankCopyScreen from './screens/BlankCopyScreen';
-import ChengpengContainersScreen from './screens/ChengpengContainersScreen';
+import ChengpengContainersTableScreen from './screens/ChengpengContainersTableScreen';
+import ChengpengMapsScreen from './screens/ChengpengMapsScreen';
 import ChengpengUtilitiesScreen from './screens/ChengpengUtilitiesScreen';
 import DuchangweiSwiperScreen from './screens/DuchangweiSwiperScreen';
 import HanxiaoScreen from './screens/HanxiaoScreen';
@@ -17,7 +18,10 @@ import HomeScreen from './screens/HomeScreen';
 import LOGINScreen from './screens/LOGINScreen';
 import PengyunheScreen from './screens/PengyunheScreen';
 import SelectProfileScreen from './screens/SelectProfileScreen';
+import VerifyPhoneNumberScreen from './screens/VerifyPhoneNumberScreen';
 import ZhangjingjinScreen from './screens/ZhangjingjinScreen';
+import ZhangyuActionSheetScreen from './screens/ZhangyuActionSheetScreen';
+import ZhangyuMediaScreen from './screens/ZhangyuMediaScreen';
 import ZhangyuScreen from './screens/ZhangyuScreen';
 
 const Stack = createStackNavigator();
@@ -146,10 +150,10 @@ export default function RootAppNavigator() {
           }}
         />
         <Stack.Screen
-          name="ChengpengContainersScreen"
-          component={ChengpengContainersScreen}
+          name="ChengpengContainersTableScreen"
+          component={ChengpengContainersTableScreen}
           options={{
-            title: 'chengpeng(Containers)',
+            title: 'chengpeng(Containers&Table)',
           }}
         />
         <Stack.Screen
@@ -157,6 +161,34 @@ export default function RootAppNavigator() {
           component={DuchangweiSwiperScreen}
           options={{
             title: 'duchangwei(Swiper)',
+          }}
+        />
+        <Stack.Screen
+          name="ChengpengMapsScreen"
+          component={ChengpengMapsScreen}
+          options={{
+            title: 'chengpeng(Maps)',
+          }}
+        />
+        <Stack.Screen
+          name="VerifyPhoneNumberScreen"
+          component={VerifyPhoneNumberScreen}
+          options={{
+            title: 'Verify Phone Number',
+          }}
+        />
+        <Stack.Screen
+          name="ZhangyuMediaScreen"
+          component={ZhangyuMediaScreen}
+          options={{
+            title: 'zhangyu（Media）',
+          }}
+        />
+        <Stack.Screen
+          name="ZhangyuActionSheetScreen"
+          component={ZhangyuActionSheetScreen}
+          options={{
+            title: 'zhangyu（Action Sheet）',
           }}
         />
       </Stack.Navigator>

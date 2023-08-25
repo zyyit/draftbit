@@ -11,32 +11,46 @@ import { handleResponse, isOkStatus } from '../utils/handleRestApiResponse';
 import usePrevious from '../utils/usePrevious';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 
-export const getBelongingPlaceGET = (Constants, _args, handlers = {}) =>
-  fetch(`https://api.oioweb.cn/api/common/teladress?mobile=13891423651`, {
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-  }).then(res => handleResponse(res, handlers));
+export const getexpressDeliveryGET = (
+  Constants,
+  { id, postId },
+  handlers = {}
+) =>
+  fetch(
+    `http://www.kuaidi100.com/query?type=${encodeURIComponent(
+      `${id ?? ''}`
+    )}&postid=${encodeURIComponent(`${postId ?? ''}`)}`,
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+  ).then(res => handleResponse(res, handlers));
 
-export const useGetBelongingPlaceGET = (
+export const useGetexpressDeliveryGET = (
   args = {},
   { refetchInterval, handlers = {} } = {}
 ) => {
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ['doctor', args],
-    () => getBelongingPlaceGET(Constants, args, handlers),
+    ['todo', args],
+    () => getexpressDeliveryGET(Constants, args, handlers),
     {
       refetchInterval,
-      onSuccess: () => queryClient.invalidateQueries(['doctors']),
+      onSuccess: () => queryClient.invalidateQueries(['todos']),
     }
   );
 };
 
-export const FetchGetBelongingPlaceGET = ({
+export const FetchGetexpressDeliveryGET = ({
   children,
   onData = () => {},
   handlers = {},
   refetchInterval,
+  id,
+  postId,
 }) => {
   const Constants = GlobalVariables.useValues();
   const isFocused = useIsFocused();
@@ -47,8 +61,8 @@ export const FetchGetBelongingPlaceGET = ({
     data,
     error,
     refetch,
-  } = useGetBelongingPlaceGET(
-    {},
+  } = useGetexpressDeliveryGET(
+    { id, postId },
     { refetchInterval, handlers: { onData, ...handlers } }
   );
 
@@ -64,5 +78,5 @@ export const FetchGetBelongingPlaceGET = ({
       console.error(error);
     }
   }, [error]);
-  return children({ loading, data, error, refetchGetBelongingPlace: refetch });
+  return children({ loading, data, error, refetchGetexpressDelivery: refetch });
 };

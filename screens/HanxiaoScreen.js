@@ -1,9 +1,12 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as DraftbitExampleApi from '../apis/DraftbitExampleApi.js';
+import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import openShareUtil from '../utils/openShare';
+import showAlertUtil from '../utils/showAlert';
 import {
   Button,
   Link,
@@ -15,7 +18,6 @@ import {
 } from '@draftbit/ui';
 import { useIsFocused } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import * as Linking from 'expo-linking';
 import {
   ActivityIndicator,
   ImageBackground,
@@ -28,6 +30,8 @@ import { Fetch } from 'react-request';
 
 const HanxiaoScreen = props => {
   const dimensions = useWindowDimensions();
+  const Constants = GlobalVariables.useValues();
+  const Variables = Constants;
 
   const { theme } = props;
   const { navigation } = props;
@@ -37,6 +41,8 @@ const HanxiaoScreen = props => {
   const [datePickerValue2, setDatePickerValue2] = React.useState(new Date());
   const [numberInputValue, setNumberInputValue] = React.useState('');
   const [pickerValue, setPickerValue] = React.useState('');
+  const [r1, setR1] = React.useState('');
+  const [r2, setR2] = React.useState('aaa');
   const [radioButtonGroupValue, setRadioButtonGroupValue] = React.useState('');
   const [styledTextFieldValue, setStyledTextFieldValue] = React.useState('');
   const [switchValue, setSwitchValue] = React.useState(false);
@@ -148,7 +154,8 @@ const HanxiaoScreen = props => {
                 <Button
                   onPress={() => {
                     try {
-                      Linking.openURL('undefined');
+                      const e1 = fetchData?.[2].email;
+                      setR1(e1);
                     } catch (err) {
                       console.error(err);
                     }
@@ -159,6 +166,14 @@ const HanxiaoScreen = props => {
                   )}
                   title={'Get Started'}
                 />
+                <Text
+                  style={StyleSheet.applyWidth(
+                    GlobalStyles.TextStyles(theme)['Text'],
+                    dimensions.width
+                  )}
+                >
+                  {r1}
+                </Text>
               </View>
             </View>
           );
@@ -191,6 +206,58 @@ const HanxiaoScreen = props => {
             style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
           />
         </Swiper>
+        <Button
+          onPress={() => {
+            const handler = async () => {
+              try {
+                const d1 = (
+                  await DraftbitExampleApi.doctorsListGET(Constants, {
+                    count: 6,
+                  })
+                )?.json;
+                const r2 = d1?.[0].first_name;
+
+                showAlertUtil({
+                  title: undefined,
+                  message: 110,
+                  buttonText: undefined,
+                });
+              } catch (err) {
+                console.error(err);
+              }
+            };
+            handler();
+          }}
+          style={StyleSheet.applyWidth(
+            GlobalStyles.ButtonStyles(theme)['Button'],
+            dimensions.width
+          )}
+          title={'Get Started'}
+        />
+        {/* Button 2 */}
+        <Button
+          onPress={() => {
+            const handler = async () => {
+              try {
+                showAlertUtil({
+                  title: undefined,
+                  message: r2,
+                  buttonText: undefined,
+                });
+
+                await openShareUtil('https://baidu.com/');
+              } catch (err) {
+                console.error(err);
+              }
+            };
+            handler();
+          }}
+          style={StyleSheet.applyWidth(
+            GlobalStyles.ButtonStyles(theme)['Button'],
+            dimensions.width
+          )}
+          title={'Get Started'}
+        />
       </View>
     </ScreenContainer>
   );

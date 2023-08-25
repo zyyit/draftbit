@@ -56,6 +56,20 @@ export const ButtonStyles = theme =>
     },
   });
 
+export const CenterStyles = theme =>
+  StyleSheet.create({
+    Center: { alignItems: 'center', justifyContent: 'center' },
+  });
+
+export const CircleStyles = theme =>
+  StyleSheet.create({
+    Circle: {
+      alignItems: 'center',
+      backgroundColor: theme.colors.primary,
+      justifyContent: 'center',
+    },
+  });
+
 export const DeckSwiperStyles = theme =>
   StyleSheet.create({ 'Deck Swiper': { position: 'absolute' } });
 
@@ -68,6 +82,9 @@ export const DeckSwiperCardStyles = theme =>
       padding: 20,
     },
   });
+
+export const DividerStyles = theme =>
+  StyleSheet.create({ Divider: { height: 1 } });
 
 export const FetchStyles = theme =>
   StyleSheet.create({ Fetch: { minHeight: 40 } });
@@ -140,6 +157,9 @@ export const NumberInputStyles = theme =>
     },
   });
 
+export const SVGStyles = theme =>
+  StyleSheet.create({ SVG: { height: 100, width: 100 } });
+
 export const SquareStyles = theme =>
   StyleSheet.create({
     Square: {
@@ -197,6 +217,9 @@ export const TextInputStyles = theme =>
       paddingTop: 8,
     },
   });
+
+export const VideoPlayerStyles = theme =>
+  StyleSheet.create({ Video: { height: 215 } });
 
 export const YoutubePlayerStyles = theme =>
   StyleSheet.create({ 'Youtube Player': { height: 250 } });

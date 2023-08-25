@@ -3,12 +3,18 @@ import * as GlobalStyles from '../GlobalStyles.js';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import {
+  ActionSheet,
+  ActionSheetCancel,
+  ActionSheetItem,
+  AudioPlayer,
   Button,
   IconButton,
   Markdown,
   ScreenContainer,
   Shadow,
   SwipeableItem,
+  SwipeableItemButton,
+  SwipeableList,
   TabView,
   TabViewItem,
   withTheme,
@@ -23,6 +29,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Fetch } from 'react-request';
 
 const ZhangyuScreen = props => {
   const dimensions = useWindowDimensions();
@@ -31,36 +38,7 @@ const ZhangyuScreen = props => {
 
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
-      <FlashList
-        renderItem={({ item }) => {
-          const flashListData = item;
-          return (
-            <SwipeableItem
-              style={StyleSheet.applyWidth(
-                GlobalStyles.SwipeableItemStyles(theme)['Swipeable Item'],
-                dimensions.width
-              )}
-              closeOnPress={true}
-              friction={20}
-              swipeActivationPercentage={80}
-              swipeToClosePercent={50}
-              swipeToOpenPercent={50}
-            />
-          );
-        }}
-        data={[]}
-        listKey={'zC3JOZb1'}
-        keyExtractor={flashListData =>
-          flashListData?.id ||
-          flashListData?.uuid ||
-          JSON.stringify(flashListData)
-        }
-        estimatedItemSize={50}
-        numColumns={1}
-        onEndReachedThreshold={0.5}
-        showsHorizontalScrollIndicator={true}
-        showsVerticalScrollIndicator={true}
-      />
+      {null}
     </ScreenContainer>
   );
 };

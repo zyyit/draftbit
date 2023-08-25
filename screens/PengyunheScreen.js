@@ -1,8 +1,9 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
-import * as BelongingPlaceApi from '../apis/BelongingPlaceApi.js';
 import * as DraftbitExampleApi from '../apis/DraftbitExampleApi.js';
-import * as GlobalVariables from '../config/GlobalVariableContext';
+import * as TodosApi from '../apis/TodosApi.js';
+import * as CustomCode from '../custom-files/CustomCode';
+import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import { Button, NumberInput, ScreenContainer, withTheme } from '@draftbit/ui';
@@ -11,6 +12,7 @@ import { useIsFocused } from '@react-navigation/native';
 import {
   ActivityIndicator,
   FlatList,
+  Image,
   Text,
   View,
   useWindowDimensions,
@@ -19,8 +21,6 @@ import { Fetch } from 'react-request';
 
 const PengyunheScreen = props => {
   const dimensions = useWindowDimensions();
-  const Constants = GlobalVariables.useValues();
-  const Variables = Constants;
 
   const { theme } = props;
 
@@ -29,10 +29,14 @@ const PengyunheScreen = props => {
 
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
+      {/* CustomCode */}
+      <Utils.CustomCodeErrorBoundary>
+        <CustomCode.BarChartComponent />
+      </Utils.CustomCodeErrorBoundary>
       {/* title */}
       <View
         style={StyleSheet.applyWidth(
-          { flexDirection: 'column', marginLeft: 10 },
+          { flexDirection: 'column', marginLeft: 10, marginTop: 20 },
           dimensions.width
         )}
       >
@@ -85,16 +89,6 @@ const PengyunheScreen = props => {
           placeholderTextColor={theme.colors['Custom Color_16']}
         />
         <Button
-          onPress={() => {
-            const handler = async () => {
-              try {
-                (await BelongingPlaceApi.getBelongingPlaceGET(Constants))?.json;
-              } catch (err) {
-                console.error(err);
-              }
-            };
-            handler();
-          }}
           style={StyleSheet.applyWidth(
             StyleSheet.compose(GlobalStyles.ButtonStyles(theme)['Button'], {
               fontSize: 16,
@@ -107,7 +101,90 @@ const PengyunheScreen = props => {
         />
       </View>
 
-      <DraftbitExampleApi.FetchDoctorsListGET count={6}>
+      <H4
+        style={StyleSheet.applyWidth(
+          StyleSheet.compose(GlobalStyles.H4Styles(theme)['H4'], {
+            marginLeft: 10,
+          }),
+          dimensions.width
+        )}
+      >
+        {'显示单条数据'}
+      </H4>
+      {/* Fetch 2 */}
+      <TodosApi.FetchGetTodosGET>
+        {({ loading, error, data, refetchGetTodos }) => {
+          const fetch2Data = data?.json;
+          if (loading) {
+            return <ActivityIndicator />;
+          }
+
+          if (error || data?.status < 200 || data?.status >= 300) {
+            return <ActivityIndicator />;
+          }
+
+          return (
+            <View
+              style={StyleSheet.applyWidth(
+                { marginLeft: 10 },
+                dimensions.width
+              )}
+            >
+              {/* id */}
+              <Text
+                style={StyleSheet.applyWidth(
+                  GlobalStyles.TextStyles(theme)['Text'],
+                  dimensions.width
+                )}
+              >
+                {'id：'}
+                {fetch2Data?.id}
+              </Text>
+              {/* name */}
+              <Text
+                style={StyleSheet.applyWidth(
+                  GlobalStyles.TextStyles(theme)['Text'],
+                  dimensions.width
+                )}
+              >
+                {'name：'}
+                {fetch2Data?.name}
+              </Text>
+              {/* description */}
+              <Text
+                style={StyleSheet.applyWidth(
+                  GlobalStyles.TextStyles(theme)['Text'],
+                  dimensions.width
+                )}
+              >
+                {'description：'}
+                {fetch2Data?.description}
+              </Text>
+              <Image
+                style={StyleSheet.applyWidth(
+                  GlobalStyles.ImageStyles(theme)['Image'],
+                  dimensions.width
+                )}
+                resizeMode={'cover'}
+                source={{ uri: `${fetch2Data?.image_url}` }}
+              />
+            </View>
+          );
+        }}
+      </TodosApi.FetchGetTodosGET>
+      {/* H4 2 */}
+      <H4
+        style={StyleSheet.applyWidth(
+          StyleSheet.compose(GlobalStyles.H4Styles(theme)['H4'], {
+            marginLeft: 10,
+          }),
+          dimensions.width
+        )}
+      >
+        {'显示List'}
+      </H4>
+
+      <DraftbitExampleApi.FetchDoctorsListGET count={3}>
         {({ loading, error, data, refetchDoctorsList }) => {
           const fetchData = data?.json;
           if (loading) {
@@ -127,11 +204,17 @@ const PengyunheScreen = props => {
                     {/* result */}
                     <View
                       style={StyleSheet.applyWidth(
-                        { marginLeft: 10 },
+                        {
+                          borderColor: theme.colors['Strong'],
+                          borderRadius: 1,
+                          borderStyle: 'dotted',
+                          borderWidth: 1,
+                          marginLeft: 10,
+                        },
                         dimensions.width
                       )}
                     >
-                      {/* prov */}
+                      {/* city */}
                       <Text
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
@@ -141,10 +224,10 @@ const PengyunheScreen = props => {
                           dimensions.width
                         )}
                       >
-                        {'省：'}
-                        {fetchData?.code}
+                        {'city：'}
+                        {listData?.city}
                       </Text>
-                      {/* name */}
+                      {/* email */}
                       <Text
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
@@ -154,9 +237,10 @@ const PengyunheScreen = props => {
                           dimensions.width
                         )}
                       >
-                        {'运营商：'}
+                        {'email：'}
+                        {listData?.email}
                       </Text>
-                      {/* areaCode */}
+                      {/* country */}
                       <Text
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
@@ -166,44 +250,17 @@ const PengyunheScreen = props => {
                           dimensions.width
                         )}
                       >
-                        {'区域代码：'}
+                        {'country：'}
+                        {listData?.country}
                       </Text>
-                      {/* postCode */}
-                      <Text
+                      <Image
                         style={StyleSheet.applyWidth(
-                          StyleSheet.compose(
-                            GlobalStyles.TextStyles(theme)['Text'],
-                            { marginTop: 10 }
-                          ),
+                          GlobalStyles.ImageStyles(theme)['Image'],
                           dimensions.width
                         )}
-                      >
-                        {'邮政编码：'}
-                      </Text>
-                      {/* cityCode */}
-                      <Text
-                        style={StyleSheet.applyWidth(
-                          StyleSheet.compose(
-                            GlobalStyles.TextStyles(theme)['Text'],
-                            { marginTop: 10 }
-                          ),
-                          dimensions.width
-                        )}
-                      >
-                        {'行政编码：'}
-                      </Text>
-                      {/* provCode */}
-                      <Text
-                        style={StyleSheet.applyWidth(
-                          StyleSheet.compose(
-                            GlobalStyles.TextStyles(theme)['Text'],
-                            { marginTop: 10 }
-                          ),
-                          dimensions.width
-                        )}
-                      >
-                        {'省行政编码：'}
-                      </Text>
+                        resizeMode={'cover'}
+                        source={{ uri: `${listData?.bgimage}` }}
+                      />
                     </View>
                   </>
                 );

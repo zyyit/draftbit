@@ -2,9 +2,11 @@ import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
+import * as CustomCode from '../custom-files/CustomCode';
+import * as Test from '../custom-files/Test';
+import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
-import showAlertUtil from '../utils/showAlert';
 import {
   Button,
   Icon,
@@ -23,23 +25,9 @@ const ZhangjingjinScreen = props => {
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
-  const setGlobalVariableValue = GlobalVariables.useSetValue();
 
-  // }
-  const loginCheck = (Variables, setGlobalVariableValue) => {
-    // Type the code for the body of your function or hook here.
-    // Functions can be triggered via Button/Touchable actions.
-    // Hooks are run per ReactJS rules.
-    console.log('进入函数');
-    console.log('name: ' + nameStr);
-    console.log('password: ' + passwordStr);
-    if (nameStr == '' || nameStr == '') {
-      setLoginFlg(true);
-    } else {
-      setLoginFlg(false);
-    }
-    /* String line breaks are accomplished with backticks ( example: `line one
-line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
+  const loginCheck = () => {
+    Test.test();
   };
 
   const { theme } = props;
@@ -126,13 +114,7 @@ line two` ) and will not work with special characters inside of quotes ( example
               <Button
                 onPress={() => {
                   try {
-                    loginCheck(Variables, setGlobalVariableValue);
-
-                    showAlertUtil({
-                      title: 'ERROR',
-                      message: ERRMSG,
-                      buttonText: 'OK',
-                    });
+                    loginCheck();
                   } catch (err) {
                     console.error(err);
                   }
@@ -189,6 +171,7 @@ line two` ) and will not work with special characters inside of quotes ( example
               <TextInput
                 onChangeText={newNameValue => {
                   try {
+                    setNameStr(newNameValue);
                   } catch (err) {
                     console.error(err);
                   }
