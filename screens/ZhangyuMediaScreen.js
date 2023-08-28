@@ -43,21 +43,6 @@ const ZhangyuMediaScreen = props => {
           behavior={'padding'}
           enabled={true}
         >
-          <Image
-            style={StyleSheet.applyWidth(
-              StyleSheet.compose(GlobalStyles.ImageStyles(theme)['Image'], {
-                height: 180,
-                marginTop: 50,
-                width: 300,
-              }),
-              dimensions.width
-            )}
-            blurRadius={0}
-            resizeMode={'cover'}
-            source={{
-              uri: 'https://static.draftbit.com/images/placeholder-image.png',
-            }}
-          />
           <KeyboardAwareScrollView
             style={StyleSheet.applyWidth(
               { height: 650, width: 350 },

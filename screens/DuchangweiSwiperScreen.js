@@ -1,19 +1,16 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
+import * as Organization2Api from '../apis/Organization2Api.js';
+import * as GlobalVariables from '../config/GlobalVariableContext';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
-import {
-  DeckSwiper,
-  DeckSwiperCard,
-  ScreenContainer,
-  Swiper,
-  SwiperItem,
-  withTheme,
-} from '@draftbit/ui';
-import { StatusBar, useWindowDimensions } from 'react-native';
+import { Button, ScreenContainer, TextInput, withTheme } from '@draftbit/ui';
+import { StatusBar, View, useWindowDimensions } from 'react-native';
 
 const DuchangweiSwiperScreen = props => {
   const dimensions = useWindowDimensions();
+  const Constants = GlobalVariables.useValues();
+  const Variables = Constants;
 
   const { theme } = props;
 
@@ -21,48 +18,61 @@ const DuchangweiSwiperScreen = props => {
     StatusBar.setBarStyle('light-content');
   }, []);
 
+  const organization2AddrolePOST = Organization2Api.useAddrolePOST();
+
   const [starRatingValue, setStarRatingValue] = React.useState(0);
+  const [textInputValue, setTextInputValue] = React.useState('');
+  const [textInputValue2, setTextInputValue2] = React.useState('');
 
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
-      <DeckSwiper
-        renderItem={({ item }) => {
-          const deckSwiperData = item;
-          return (
-            <DeckSwiperCard
-              style={StyleSheet.applyWidth(
-                GlobalStyles.DeckSwiperCardStyles(theme)['Deck Swiper Card'],
-                dimensions.width
-              )}
-            />
-          );
-        }}
-        data={theme.colors['Studily_Gray 1']}
-        listKey={'5gYFr4hu'}
-        keyExtractor={deckSwiperData =>
-          deckSwiperData?.id ||
-          deckSwiperData?.uuid ||
-          JSON.stringify(deckSwiperData)
-        }
+      <View
         style={StyleSheet.applyWidth(
-          GlobalStyles.DeckSwiperStyles(theme)['Deck Swiper'],
+          { alignItems: 'center', marginTop: 200 },
           dimensions.width
         )}
-        horizontalEnabled={true}
-        verticalEnabled={true}
-        visibleCardCount={1}
-      />
-      <Swiper
-        style={StyleSheet.applyWidth(
-          GlobalStyles.SwiperStyles(theme)['Swiper'],
-          dimensions.width
-        )}
-        dotActiveColor={theme.colors.primary}
-        dotColor={theme.colors.light}
-        dotsTouchable={true}
       >
-        <SwiperItem />
-      </Swiper>
+        <View>
+          <TextInput
+            onChangeText={newTextInputValue => {
+              const textInputValue = newTextInputValue;
+              try {
+                setTextInputValue(textInputValue);
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+            style={StyleSheet.applyWidth(
+              GlobalStyles.TextInputStyles(theme)['Text Input'],
+              dimensions.width
+            )}
+            value={textInputValue2}
+            autoCapitalize={'none'}
+            changeTextDelay={500}
+            placeholder={'Enter a value...'}
+          />
+        </View>
+      </View>
+      {/* 插入 */}
+      <Button
+        onPress={() => {
+          const handler = async () => {
+            try {
+              (await organization2AddrolePOST.mutateAsync())?.json;
+            } catch (err) {
+              console.error(err);
+            }
+          };
+          handler();
+        }}
+        style={StyleSheet.applyWidth(
+          StyleSheet.compose(GlobalStyles.ButtonStyles(theme)['Button'], {
+            marginTop: 40,
+          }),
+          dimensions.width
+        )}
+        title={'角色添加'}
+      />
     </ScreenContainer>
   );
 };

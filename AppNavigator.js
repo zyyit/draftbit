@@ -16,13 +16,17 @@ import DuchangweiSwiperScreen from './screens/DuchangweiSwiperScreen';
 import HanxiaoScreen from './screens/HanxiaoScreen';
 import HomeScreen from './screens/HomeScreen';
 import LOGINScreen from './screens/LOGINScreen';
+import ListzyyScreen from './screens/ListzyyScreen';
 import PengyunheScreen from './screens/PengyunheScreen';
-import SelectProfileScreen from './screens/SelectProfileScreen';
+import UpdateProfileCopyScreen from './screens/UpdateProfileCopyScreen';
+import UpdateProfileScreen from './screens/UpdateProfileScreen';
 import VerifyPhoneNumberScreen from './screens/VerifyPhoneNumberScreen';
 import ZhangjingjinScreen from './screens/ZhangjingjinScreen';
 import ZhangyuActionSheetScreen from './screens/ZhangyuActionSheetScreen';
 import ZhangyuMediaScreen from './screens/ZhangyuMediaScreen';
 import ZhangyuScreen from './screens/ZhangyuScreen';
+import ZhangyuSwipeableScreen from './screens/ZhangyuSwipeableScreen';
+import ZhangyuloginScreen from './screens/ZhangyuloginScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -101,6 +105,13 @@ export default function RootAppNavigator() {
           }}
         />
         <Stack.Screen
+          name="ListzyyScreen"
+          component={ListzyyScreen}
+          options={{
+            title: 'List_zyy',
+          }}
+        />
+        <Stack.Screen
           name="ZhangjingjinScreen"
           component={ZhangjingjinScreen}
           options={{
@@ -112,13 +123,6 @@ export default function RootAppNavigator() {
           component={PengyunheScreen}
           options={{
             title: 'pengyunhe',
-          }}
-        />
-        <Stack.Screen
-          name="SelectProfileScreen"
-          component={SelectProfileScreen}
-          options={{
-            title: 'Select Profile',
           }}
         />
         <Stack.Screen
@@ -189,6 +193,34 @@ export default function RootAppNavigator() {
           component={ZhangyuActionSheetScreen}
           options={{
             title: 'zhangyu（Action Sheet）',
+          }}
+        />
+        <Stack.Screen
+          name="ZhangyuSwipeableScreen"
+          component={ZhangyuSwipeableScreen}
+          options={{
+            title: 'zhangyu(Swipeable)',
+          }}
+        />
+        <Stack.Screen
+          name="ZhangyuloginScreen"
+          component={ZhangyuloginScreen}
+          options={{
+            title: 'zhangyu（login）',
+          }}
+        />
+        <Stack.Screen
+          name="UpdateProfileScreen"
+          component={UpdateProfileScreen}
+          options={{
+            title: 'Update Profile',
+          }}
+        />
+        <Stack.Screen
+          name="UpdateProfileCopyScreen"
+          component={UpdateProfileCopyScreen}
+          options={{
+            title: 'Update Profile Copy',
           }}
         />
       </Stack.Navigator>

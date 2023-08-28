@@ -34,6 +34,7 @@ export default {
     'Custom Color_2': 'rgb(229, 229, 229)',
     'Custom Color_20': 'rgb(62, 193, 99)',
     'Custom Color_21': 'rgb(247, 253, 249)',
+    'Custom Color_22': 'rgb(0, 0, 0)',
     'Custom Color_3': 'rgb(128, 128, 128)',
     'Custom Color_4': 'rgb(255, 0, 0)',
     'Custom Color_5': 'rgb(241, 134, 59)',

@@ -7,8 +7,10 @@ const DeviceVariables = { loginFlg: true };
 const AppVariables = {
   ERROR1: '账号或密码错误',
   ERROR2: '账号或密码不能为空',
+  Visible: false,
+  VisibleTrue: true,
+  appVar: '我是一个应用变量',
   chatdoc: true,
-  list: 'aaa,sss',
 };
 const GlobalVariableContext = React.createContext();
 const GlobalVariableUpdater = React.createContext();

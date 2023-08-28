@@ -9,4 +9,5 @@ export default {
   Snipaste20230823172051: require('../assets/images/Snipaste20230823172051.png'),
   Onboarding2: require('../assets/images/Onboarding2.png'),
   Ob2Button: require('../assets/images/Ob2Button.png'),
+  Avatar: require('../assets/images/Avatar.png'),
 };

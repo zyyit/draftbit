@@ -20,7 +20,15 @@ const ChengpengContainersTableScreen = props => {
   const dimensions = useWindowDimensions();
 
   const { theme } = props;
+  const { navigation } = props;
 
+  const [cp_message_button_text, setCp_message_button_text] =
+    React.useState('cp确认');
+  const [cp_message_ng, setCp_message_ng] = React.useState('错误');
+  const [cp_message_ok, setCp_message_ok] = React.useState('正确');
+  const [cp_message_title, setCp_message_title] = React.useState('输出信息');
+  const [datePickerValue, setDatePickerValue] = React.useState(new Date());
+  const [pickerValue, setPickerValue] = React.useState('');
   const [switchValue, setSwitchValue] = React.useState(false);
 
   return (
@@ -298,6 +306,20 @@ const ChengpengContainersTableScreen = props => {
           />
         </TableRow>
       </Table>
+      <Button
+        onPress={() => {
+          try {
+            navigation.navigate('ListzyyScreen');
+          } catch (err) {
+            console.error(err);
+          }
+        }}
+        style={StyleSheet.applyWidth(
+          GlobalStyles.ButtonStyles(theme)['Button'],
+          dimensions.width
+        )}
+        title={'Get Started'}
+      />
     </ScreenContainer>
   );
 };

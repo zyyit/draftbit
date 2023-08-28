@@ -1,8 +1,7 @@
 import React from 'react';
-import * as GlobalStyles from '../GlobalStyles.js';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
-import { Button, ScreenContainer, withTheme } from '@draftbit/ui';
+import { ScreenContainer, withTheme } from '@draftbit/ui';
 import { useWindowDimensions } from 'react-native';
 
 const LOGINScreen = props => {
@@ -24,15 +23,7 @@ const LOGINScreen = props => {
       )}
       hasSafeArea={false}
       scrollable={false}
-    >
-      <Button
-        style={StyleSheet.applyWidth(
-          GlobalStyles.ButtonStyles(theme)['Button'],
-          dimensions.width
-        )}
-        title={'Get Started2'}
-      />
-    </ScreenContainer>
+    />
   );
 };
 

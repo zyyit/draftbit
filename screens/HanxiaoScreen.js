@@ -5,8 +5,15 @@ import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import getPushTokenUtil from '../utils/getPushToken';
 import openShareUtil from '../utils/openShare';
 import showAlertUtil from '../utils/showAlert';
+import {
+  MapCallout,
+  MapMarker,
+  MapMarkerCluster,
+  MapView,
+} from '@draftbit/maps';
 import {
   Button,
   Link,
@@ -56,6 +63,8 @@ const HanxiaoScreen = props => {
   const [textInputValue2, setTextInputValue2] = React.useState('');
   const [textInputValue3, setTextInputValue3] = React.useState('');
 
+  const mapViewTMEmnkdLRef = React.useRef();
+
   return (
     <ScreenContainer hasSafeArea={true} scrollable={false}>
       <DraftbitExampleApi.FetchDoctorsListGET count={6}>
@@ -70,112 +79,42 @@ const HanxiaoScreen = props => {
           }
 
           return (
-            <View>
-              <FlashList
-                renderItem={({ item }) => {
-                  const flashListData = item;
-                  return (
-                    <View
-                      style={StyleSheet.applyWidth(
-                        { flex: 1 },
-                        dimensions.width
-                      )}
-                    >
-                      <TextInput
-                        onFocus={() => {
-                          const textInputValue = undefined;
-                          try {
-                            navigation.goBack();
-                          } catch (err) {
-                            console.error(err);
-                          }
-                        }}
-                        style={StyleSheet.applyWidth(
-                          GlobalStyles.TextInputStyles(theme)['Text Area'],
-                          dimensions.width
-                        )}
-                        changeTextDelay={500}
-                        defaultValue={flashListData?.city}
-                        multiline={true}
-                        numberOfLines={4}
-                        placeholder={
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
-                        }
-                        textAlignVertical={'top'}
-                      />
-                    </View>
-                  );
+            <>
+              <MapView
+                onPress={(latitude, longitude) => {
+                  try {
+                    mapViewTMEmnkdLRef.current.animateToLocation({
+                      latitude: undefined,
+                      longitude: undefined,
+                      zoom: undefined,
+                    });
+                  } catch (err) {
+                    console.error(err);
+                  }
                 }}
-                data={fetchData}
-                listKey={'SnGasEry'}
-                keyExtractor={flashListData =>
-                  flashListData?.id ||
-                  flashListData?.uuid ||
-                  JSON.stringify(flashListData)
-                }
-                contentContainerStyle={StyleSheet.applyWidth(
-                  { backgroundColor: theme.colors['Secondary'] },
+                style={StyleSheet.applyWidth(
+                  GlobalStyles.MapViewStyles(theme)['Map View'],
                   dimensions.width
                 )}
-                estimatedItemSize={10}
-                horizontal={false}
-                inverted={false}
-                numColumns={2}
-                onEndReachedThreshold={0.5}
-                showsHorizontalScrollIndicator={true}
-                showsVerticalScrollIndicator={true}
-              />
-              <View>
-                <Button
-                  onPress={() => {
-                    try {
-                      navigation.navigate('LOGINScreen', {
-                        user: 'lm',
-                        ok: 'yes',
-                      });
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                  style={StyleSheet.applyWidth(
-                    GlobalStyles.ButtonStyles(theme)['Button'],
-                    dimensions.width
-                  )}
-                  title={'页面跳转'}
-                />
-                <Link
-                  style={StyleSheet.applyWidth(
-                    GlobalStyles.LinkStyles(theme)['Link'],
-                    dimensions.width
-                  )}
-                  title={'Get Started'}
-                />
-                {/* Button 2 */}
-                <Button
-                  onPress={() => {
-                    try {
-                      const e1 = fetchData?.[2].email;
-                      setR1(e1);
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                  style={StyleSheet.applyWidth(
-                    GlobalStyles.ButtonStyles(theme)['Button'],
-                    dimensions.width
-                  )}
-                  title={'Get Started'}
-                />
-                <Text
-                  style={StyleSheet.applyWidth(
-                    GlobalStyles.TextStyles(theme)['Text'],
-                    dimensions.width
-                  )}
-                >
-                  {r1}
-                </Text>
-              </View>
-            </View>
+                apiKey={'AIzaSyBzktToWosjNgrrUawZnbslB9NSXSXCkwo'}
+                autoClusterMarkersDistanceMeters={10000}
+                customMapStyle={'Beautiful West Coast Villa'}
+                latitude={37.40241}
+                loadingEnabled={true}
+                longitude={-122.12125}
+                ref={mapViewTMEmnkdLRef}
+                rotateEnabled={true}
+                scrollEnabled={true}
+                showsPointsOfInterest={true}
+                zoom={8}
+                zoomEnabled={true}
+              >
+                <MapMarkerCluster />
+                <MapMarker pinImageSize={50}>
+                  <MapCallout showTooltip={true} />
+                </MapMarker>
+              </MapView>
+            </>
           );
         }}
       </DraftbitExampleApi.FetchDoctorsListGET>
@@ -240,12 +179,18 @@ const HanxiaoScreen = props => {
             const handler = async () => {
               try {
                 showAlertUtil({
-                  title: undefined,
+                  title: 'Message',
                   message: r2,
-                  buttonText: undefined,
+                  buttonText: 'OK',
                 });
 
-                await openShareUtil('https://baidu.com/');
+                await openShareUtil('https://pan.baidu.com/s/1rEj2Lop36RsT');
+                await getPushTokenUtil({
+                  failMessage:
+                    'Failed to get push token for push notification!',
+                  deviceMessage:
+                    'Must use physical device for Push Notifications',
+                });
               } catch (err) {
                 console.error(err);
               }
