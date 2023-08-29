@@ -135,7 +135,7 @@ const UpdateProfileScreen = props => {
             style={StyleSheet.applyWidth(
               {
                 alignItems: 'center',
-                backgroundColor: theme.colors['BG Gray'],
+                backgroundColor: 'rgb(242, 236, 236)',
                 borderBottomWidth: 1,
                 borderColor: theme.colors['Divider'],
                 borderLeftWidth: 1,

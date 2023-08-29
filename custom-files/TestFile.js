@@ -1,5 +1,6 @@
 import { Text } from 'react-native';
-export const test = () => show();
-function show() {
-  return <Text>Hello world!</Text>;
+export const test = () => getFullName();
+function getFullName() {
+  var fullName = this.state.fullName;
+  console.log(fullName);
 }

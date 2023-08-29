@@ -20,15 +20,42 @@ import {
   TextInput,
   withTheme,
 } from '@draftbit/ui';
-import { ImageBackground, useWindowDimensions } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import {
+  ActivityIndicator,
+  Alert,
+  ImageBackground,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
+import { Fetch } from 'react-request';
 
 const ZhangjingjinScreen = props => {
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
+  const setGlobalVariableValue = GlobalVariables.useSetValue();
 
-  const loginCheck = () => {
-    TestFile.test();
+  const loginCheck = (Variables, setGlobalVariableValue, resultStr) => {
+    var fullNameStr = '';
+    fullNameStr = resultStr.fullName;
+    console.log(fullNameStr);
+    if (fullNameStr != '' && fullNameStr != null) {
+      Alert.alert(
+        'success',
+        '取得成功,登录成功',
+        { text: 'OK' },
+        { cancelable: false }
+      );
+    } else {
+      Alert.alert(
+        'error',
+        '取得失败,登录失败',
+        { text: 'OK' },
+        { cancelable: false }
+      );
+    }
   };
 
   const { theme } = props;
@@ -45,7 +72,7 @@ const ZhangjingjinScreen = props => {
         style={StyleSheet.applyWidth(
           StyleSheet.compose(
             GlobalStyles.ImageBackgroundStyles(theme)['Image Background'],
-            { position: 'relative' }
+            { height: 700, position: 'relative' }
           ),
           dimensions.width
         )}
@@ -116,8 +143,10 @@ const ZhangjingjinScreen = props => {
                 onPress={() => {
                   const handler = async () => {
                     try {
-                      (await LoginCheckApi.loginGET(Constants, { id: nameStr }))
-                        ?.json;
+                      const resultStr = (
+                        await LoginCheckApi.loginGET(Constants, { id: nameStr })
+                      )?.json;
+                      loginCheck(Variables, setGlobalVariableValue, resultStr);
                     } catch (err) {
                       console.error(err);
                     }
@@ -245,10 +274,33 @@ const ZhangjingjinScreen = props => {
           </TableRow>
         </Table>
       </ImageBackground>
-      {/* CustomCode */}
-      <Utils.CustomCodeErrorBoundary>
-        <TestFile.test />
-      </Utils.CustomCodeErrorBoundary>
+
+      <LoginCheckApi.FetchLoginGET id={nameStr}>
+        {({ loading, error, data, refetchLogin }) => {
+          const fetchData = data?.json;
+          if (loading) {
+            return <ActivityIndicator />;
+          }
+
+          if (error || data?.status < 200 || data?.status >= 300) {
+            return <ActivityIndicator />;
+          }
+
+          return (
+            <View>
+              {/* fullName */}
+              <Text
+                style={StyleSheet.applyWidth(
+                  GlobalStyles.TextStyles(theme)['Text'],
+                  dimensions.width
+                )}
+              >
+                {fetchData?.fullName}
+              </Text>
+            </View>
+          );
+        }}
+      </LoginCheckApi.FetchLoginGET>
     </ScreenContainer>
   );
 };

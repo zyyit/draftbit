@@ -33,6 +33,7 @@ const HomeScreen = props => {
   const dimensions = useWindowDimensions();
 
   const { theme } = props;
+  const { navigation } = props;
 
   const [showappointment, setShowappointment] = React.useState(false);
   const [textInputValue, setTextInputValue] = React.useState('');
@@ -232,6 +233,7 @@ const HomeScreen = props => {
                 onPress={() => {
                   try {
                     setShowappointment(true);
+                    navigation.navigate('ListzyyScreen');
                   } catch (err) {
                     console.error(err);
                   }
@@ -559,7 +561,15 @@ const HomeScreen = props => {
             )}
           >
             {/* Appointment */}
-            <Touchable>
+            <Touchable
+              onPress={() => {
+                try {
+                  navigation.navigate('ListzyyScreen');
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
+            >
               <View
                 style={StyleSheet.applyWidth(
                   { alignItems: 'center' },

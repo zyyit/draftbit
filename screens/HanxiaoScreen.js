@@ -62,25 +62,12 @@ const HanxiaoScreen = props => {
   const [textInputValue, setTextInputValue] = React.useState('');
   const [textInputValue2, setTextInputValue2] = React.useState('');
   const [textInputValue3, setTextInputValue3] = React.useState('');
+  const [textInputValue4, setTextInputValue4] = React.useState('');
 
   const mapViewTMEmnkdLRef = React.useRef();
 
   return (
     <ScreenContainer hasSafeArea={true} scrollable={false}>
-      <Organization2Api.FetchAddrolePOST roleCd={55}>
-        {({ loading, error, data, refetchAddrole }) => {
-          const fetchData = data?.json;
-          if (loading) {
-            return <ActivityIndicator />;
-          }
-
-          if (error || data?.status < 200 || data?.status >= 300) {
-            return <ActivityIndicator />;
-          }
-
-          return <></>;
-        }}
-      </Organization2Api.FetchAddrolePOST>
       <View>
         <Swiper
           style={StyleSheet.applyWidth(
@@ -132,13 +119,14 @@ const HanxiaoScreen = props => {
           onPress={() => {
             const handler = async () => {
               try {
-                const erR = await organization2AddrolePOST.mutateAsync({
-                  roleCd: 132,
-                });
+                const SS1 = (
+                  await organization2AddrolePOST.mutateAsync({ roleCd: 6 })
+                )?.json;
+                console.log(SS1);
 
                 showAlertUtil({
                   title: 'Message',
-                  message: erR,
+                  message: SS1,
                   buttonText: 'OK',
                 });
               } catch (err) {
@@ -151,7 +139,25 @@ const HanxiaoScreen = props => {
             GlobalStyles.ButtonStyles(theme)['Button'],
             dimensions.width
           )}
-          title={'Get Started'}
+          title={'API Request'}
+        />
+        <TextInput
+          onChangeText={newTextInputValue => {
+            const textInputValue = newTextInputValue;
+            try {
+              setTextInputValue4(newTextInputValue);
+            } catch (err) {
+              console.error(err);
+            }
+          }}
+          style={StyleSheet.applyWidth(
+            GlobalStyles.TextInputStyles(theme)['Text Input'],
+            dimensions.width
+          )}
+          value={textInputValue4}
+          autoCapitalize={'none'}
+          changeTextDelay={500}
+          placeholder={'Enter a value...'}
         />
       </View>
     </ScreenContainer>

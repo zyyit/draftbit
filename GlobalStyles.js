@@ -177,6 +177,9 @@ export const SwipeableItemStyles = theme => StyleSheet.create({});
 export const SwiperStyles = theme =>
   StyleSheet.create({ Swiper: { height: 300, width: '100%' } });
 
+export const SwitchRowStyles = theme =>
+  StyleSheet.create({ 'Switch Row': { marginLeft: 0, marginRight: 0 } });
+
 export const TabViewItemStyles = theme =>
   StyleSheet.create({ 'Tab View Item': { flex: 1 } });
 

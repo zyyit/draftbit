@@ -3,7 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const DeviceVariables = { deviceVal: 1, loginFlg: true };
+const DeviceVariables = { deviceVal: 1 };
 const AppVariables = {
   ERROR1: '账号或密码错误',
   ERROR2: '账号或密码不能为空',
@@ -11,6 +11,7 @@ const AppVariables = {
   VisibleTrue: true,
   appVar: '我是一个应用变量',
   chatdoc: true,
+  loginFlg: true,
 };
 const GlobalVariableContext = React.createContext();
 const GlobalVariableUpdater = React.createContext();

@@ -1,7 +1,5 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
-import * as DraftbitExampleApi from '../apis/DraftbitExampleApi.js';
-import * as GlobalVariables from '../config/GlobalVariableContext';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import {
@@ -11,6 +9,7 @@ import {
   ScreenContainer,
   Surface,
   Switch,
+  SwitchRow,
   Table,
   TableCell,
   TableRow,
@@ -20,8 +19,6 @@ import { Image, Text, useWindowDimensions } from 'react-native';
 
 const ChengpengContainersTableScreen = props => {
   const dimensions = useWindowDimensions();
-  const Constants = GlobalVariables.useValues();
-  const Variables = Constants;
 
   const { theme } = props;
 
@@ -32,6 +29,7 @@ const ChengpengContainersTableScreen = props => {
   const [cp_message_title, setCp_message_title] = React.useState('输出信息');
   const [datePickerValue, setDatePickerValue] = React.useState(new Date());
   const [pickerValue, setPickerValue] = React.useState('');
+  const [switchRowValue, setSwitchRowValue] = React.useState(false);
   const [switchValue, setSwitchValue] = React.useState(false);
 
   return (
@@ -309,24 +307,21 @@ const ChengpengContainersTableScreen = props => {
           />
         </TableRow>
       </Table>
-      <Button
-        onPress={() => {
-          const handler = async () => {
-            try {
-              const d1 = (
-                await DraftbitExampleApi.doctorsListGET(Constants, { count: 6 })
-              )?.json;
-            } catch (err) {
-              console.error(err);
-            }
-          };
-          handler();
+      <SwitchRow
+        onValueChange={newSwitchRowValue => {
+          const switchValue = newSwitchRowValue;
+          try {
+            setSwitchRowValue(newSwitchRowValue);
+          } catch (err) {
+            console.error(err);
+          }
         }}
         style={StyleSheet.applyWidth(
-          GlobalStyles.ButtonStyles(theme)['Button'],
+          GlobalStyles.SwitchRowStyles(theme)['Switch Row'],
           dimensions.width
         )}
-        title={'Get Started'}
+        value={switchRowValue}
+        label={'本职'}
       />
     </ScreenContainer>
   );
