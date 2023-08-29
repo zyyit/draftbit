@@ -84,7 +84,7 @@ function Placeholder() {
 export default function RootAppNavigator() {
   return (
     <NavigationContainer linking={LinkingConfiguration}>
-      <Stack.Navigator initialRouteName="ChengpengScreen">
+      <Stack.Navigator initialRouteName="LOGINScreen">
         <Stack.Screen
           name="LOGINScreen"
           component={LOGINScreen}

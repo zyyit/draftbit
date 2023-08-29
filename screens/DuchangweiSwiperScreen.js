@@ -20,9 +20,7 @@ const DuchangweiSwiperScreen = props => {
 
   const organization2AddrolePOST = Organization2Api.useAddrolePOST();
 
-  const [starRatingValue, setStarRatingValue] = React.useState(0);
-  const [textInputValue, setTextInputValue] = React.useState('');
-  const [textInputValue2, setTextInputValue2] = React.useState('');
+  const [textInput2Value, setTextInput2Value] = React.useState('');
 
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
@@ -33,46 +31,63 @@ const DuchangweiSwiperScreen = props => {
         )}
       >
         <View>
+          {/* Text Input 2 */}
           <TextInput
-            onChangeText={newTextInputValue => {
-              const textInputValue = newTextInputValue;
-              try {
-                setTextInputValue(textInputValue);
-              } catch (err) {
-                console.error(err);
-              }
-            }}
             style={StyleSheet.applyWidth(
               GlobalStyles.TextInputStyles(theme)['Text Input'],
               dimensions.width
             )}
-            value={textInputValue2}
+            value={textInput2Value}
             autoCapitalize={'none'}
             changeTextDelay={500}
             placeholder={'Enter a value...'}
           />
+          {/* 插入 */}
+          <Button
+            onPress={() => {
+              const handler = async () => {
+                try {
+                  const data = (
+                    await organization2AddrolePOST.mutateAsync({ roleCd: 4 })
+                  )?.json;
+                } catch (err) {
+                  console.error(err);
+                }
+              };
+              handler();
+            }}
+            style={StyleSheet.applyWidth(
+              StyleSheet.compose(GlobalStyles.ButtonStyles(theme)['Button'], {
+                marginTop: 40,
+              }),
+              dimensions.width
+            )}
+            title={'角色添加'}
+          />
+          {/* 插入 2 */}
+          <Button
+            onPress={() => {
+              const handler = async () => {
+                try {
+                  const data = (
+                    await organization2AddrolePOST.mutateAsync({ roleCd: 4 })
+                  )?.json;
+                } catch (err) {
+                  console.error(err);
+                }
+              };
+              handler();
+            }}
+            style={StyleSheet.applyWidth(
+              StyleSheet.compose(GlobalStyles.ButtonStyles(theme)['Button'], {
+                marginTop: 40,
+              }),
+              dimensions.width
+            )}
+            title={'角色添加'}
+          />
         </View>
       </View>
-      {/* 插入 */}
-      <Button
-        onPress={() => {
-          const handler = async () => {
-            try {
-              (await organization2AddrolePOST.mutateAsync())?.json;
-            } catch (err) {
-              console.error(err);
-            }
-          };
-          handler();
-        }}
-        style={StyleSheet.applyWidth(
-          StyleSheet.compose(GlobalStyles.ButtonStyles(theme)['Button'], {
-            marginTop: 40,
-          }),
-          dimensions.width
-        )}
-        title={'角色添加'}
-      />
     </ScreenContainer>
   );
 };

@@ -11,43 +11,29 @@ import { handleResponse, isOkStatus } from '../utils/handleRestApiResponse';
 import usePrevious from '../utils/usePrevious';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 
-export const addrolePOST = (Constants, { roleCd }, handlers = {}) =>
-  fetch(`http://211.159.163.203:80/Organization/role/insertRole`, {
-    body: JSON.stringify({
-      roleCd: roleCd,
-      roleName: 'jack',
-      bikou: 'bikou',
-      appTantouCd: '2',
-    }),
+export const loginGET = (Constants, { id }, handlers = {}) =>
+  fetch(`https://example-data.draftbit.com/users/${id ?? ''}`, {
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-    method: 'POST',
   }).then(res => handleResponse(res, handlers));
 
-export const useAddrolePOST = (initialArgs = {}, { handlers = {} } = {}) => {
-  const queryClient = useQueryClient();
+export const useLoginGET = (
+  args = {},
+  { refetchInterval, handlers = {} } = {}
+) => {
   const Constants = GlobalVariables.useValues();
-  return useMutation(
-    args => addrolePOST(Constants, { ...initialArgs, ...args }, handlers),
-    {
-      onError: (err, variables, { previousValue }) => {
-        if (previousValue) {
-          return queryClient.setQueryData('Create todos', previousValue);
-        }
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries('Create todo');
-        queryClient.invalidateQueries('Create todos');
-      },
-    }
-  );
+  const queryClient = useQueryClient();
+  return useQuery(['todo', args], () => loginGET(Constants, args, handlers), {
+    refetchInterval,
+    onSuccess: () => queryClient.invalidateQueries(['todos']),
+  });
 };
 
-export const FetchAddrolePOST = ({
+export const FetchLoginGET = ({
   children,
   onData = () => {},
   handlers = {},
   refetchInterval,
-  roleCd,
+  id,
 }) => {
   const Constants = GlobalVariables.useValues();
   const isFocused = useIsFocused();
@@ -57,9 +43,9 @@ export const FetchAddrolePOST = ({
     isLoading: loading,
     data,
     error,
-    mutate: refetch,
-  } = useAddrolePOST(
-    { roleCd },
+    refetch,
+  } = useLoginGET(
+    { id },
     { refetchInterval, handlers: { onData, ...handlers } }
   );
 
@@ -75,5 +61,5 @@ export const FetchAddrolePOST = ({
       console.error(error);
     }
   }, [error]);
-  return children({ loading, data, error, refetchAddrole: refetch });
+  return children({ loading, data, error, refetchLogin: refetch });
 };

@@ -1,12 +1,10 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
-import * as DraftbitExampleApi from '../apis/DraftbitExampleApi.js';
+import * as Organization2Api from '../apis/Organization2Api.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
-import getPushTokenUtil from '../utils/getPushToken';
-import openShareUtil from '../utils/openShare';
 import showAlertUtil from '../utils/showAlert';
 import {
   MapCallout,
@@ -43,6 +41,8 @@ const HanxiaoScreen = props => {
   const { theme } = props;
   const { navigation } = props;
 
+  const organization2AddrolePOST = Organization2Api.useAddrolePOST();
+
   const [checkboxValue, setCheckboxValue] = React.useState(false);
   const [datePickerValue, setDatePickerValue] = React.useState(new Date());
   const [datePickerValue2, setDatePickerValue2] = React.useState(new Date());
@@ -67,8 +67,8 @@ const HanxiaoScreen = props => {
 
   return (
     <ScreenContainer hasSafeArea={true} scrollable={false}>
-      <DraftbitExampleApi.FetchDoctorsListGET count={6}>
-        {({ loading, error, data, refetchDoctorsList }) => {
+      <Organization2Api.FetchAddrolePOST roleCd={55}>
+        {({ loading, error, data, refetchAddrole }) => {
           const fetchData = data?.json;
           if (loading) {
             return <ActivityIndicator />;
@@ -78,46 +78,9 @@ const HanxiaoScreen = props => {
             return <ActivityIndicator />;
           }
 
-          return (
-            <>
-              <MapView
-                onPress={(latitude, longitude) => {
-                  try {
-                    mapViewTMEmnkdLRef.current.animateToLocation({
-                      latitude: undefined,
-                      longitude: undefined,
-                      zoom: undefined,
-                    });
-                  } catch (err) {
-                    console.error(err);
-                  }
-                }}
-                style={StyleSheet.applyWidth(
-                  GlobalStyles.MapViewStyles(theme)['Map View'],
-                  dimensions.width
-                )}
-                apiKey={'AIzaSyBzktToWosjNgrrUawZnbslB9NSXSXCkwo'}
-                autoClusterMarkersDistanceMeters={10000}
-                customMapStyle={'Beautiful West Coast Villa'}
-                latitude={37.40241}
-                loadingEnabled={true}
-                longitude={-122.12125}
-                ref={mapViewTMEmnkdLRef}
-                rotateEnabled={true}
-                scrollEnabled={true}
-                showsPointsOfInterest={true}
-                zoom={8}
-                zoomEnabled={true}
-              >
-                <MapMarkerCluster />
-                <MapMarker pinImageSize={50}>
-                  <MapCallout showTooltip={true} />
-                </MapMarker>
-              </MapView>
-            </>
-          );
+          return <></>;
         }}
-      </DraftbitExampleApi.FetchDoctorsListGET>
+      </Organization2Api.FetchAddrolePOST>
       <View>
         <Swiper
           style={StyleSheet.applyWidth(
@@ -150,17 +113,8 @@ const HanxiaoScreen = props => {
             const handler = async () => {
               try {
                 const d1 = (
-                  await DraftbitExampleApi.doctorsListGET(Constants, {
-                    count: 6,
-                  })
+                  await organization2AddrolePOST.mutateAsync({ roleCd: 6 })
                 )?.json;
-                const r2 = d1?.[0].first_name;
-
-                showAlertUtil({
-                  title: undefined,
-                  message: 110,
-                  buttonText: undefined,
-                });
               } catch (err) {
                 console.error(err);
               }
@@ -178,18 +132,14 @@ const HanxiaoScreen = props => {
           onPress={() => {
             const handler = async () => {
               try {
-                showAlertUtil({
-                  title: 'Message',
-                  message: r2,
-                  buttonText: 'OK',
+                const erR = await organization2AddrolePOST.mutateAsync({
+                  roleCd: 132,
                 });
 
-                await openShareUtil('https://pan.baidu.com/s/1rEj2Lop36RsT');
-                await getPushTokenUtil({
-                  failMessage:
-                    'Failed to get push token for push notification!',
-                  deviceMessage:
-                    'Must use physical device for Push Notifications',
+                showAlertUtil({
+                  title: 'Message',
+                  message: erR,
+                  buttonText: 'OK',
                 });
               } catch (err) {
                 console.error(err);

@@ -77,8 +77,8 @@ const ZhangyuActionSheetScreen = props => {
           onPress={() => {
             try {
               setGlobalVariableValue({
-                key: 'VisibleTrue',
-                value: Constants['Visible'],
+                key: 'Visible',
+                value: false,
               });
             } catch (err) {
               console.error(err);

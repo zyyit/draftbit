@@ -1,5 +1,7 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
+import * as DraftbitExampleApi from '../apis/DraftbitExampleApi.js';
+import * as GlobalVariables from '../config/GlobalVariableContext';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import {
@@ -18,9 +20,10 @@ import { Image, Text, useWindowDimensions } from 'react-native';
 
 const ChengpengContainersTableScreen = props => {
   const dimensions = useWindowDimensions();
+  const Constants = GlobalVariables.useValues();
+  const Variables = Constants;
 
   const { theme } = props;
-  const { navigation } = props;
 
   const [cp_message_button_text, setCp_message_button_text] =
     React.useState('cp确认');
@@ -308,11 +311,16 @@ const ChengpengContainersTableScreen = props => {
       </Table>
       <Button
         onPress={() => {
-          try {
-            navigation.navigate('ListzyyScreen');
-          } catch (err) {
-            console.error(err);
-          }
+          const handler = async () => {
+            try {
+              const d1 = (
+                await DraftbitExampleApi.doctorsListGET(Constants, { count: 6 })
+              )?.json;
+            } catch (err) {
+              console.error(err);
+            }
+          };
+          handler();
         }}
         style={StyleSheet.applyWidth(
           GlobalStyles.ButtonStyles(theme)['Button'],
