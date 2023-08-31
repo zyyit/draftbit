@@ -12,9 +12,17 @@ import usePrevious from '../utils/usePrevious';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 
 export const loginGET = (Constants, { id }, handlers = {}) =>
-  fetch(`https://example-data.draftbit.com/users/${id ?? ''}`, {
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-  }).then(res => handleResponse(res, handlers));
+  fetch(
+    `https://example-data.draftbit.com/users/${
+      typeof id === 'string' ? id : JSON.stringify(id ?? '')
+    }`,
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+  ).then(res => handleResponse(res, handlers));
 
 export const useLoginGET = (
   args = {},

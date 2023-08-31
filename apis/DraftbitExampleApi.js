@@ -14,7 +14,7 @@ import * as GlobalVariables from '../config/GlobalVariableContext';
 export const doctorsListGET = (Constants, { count }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/people?_limit=${encodeURIComponent(
-      `${count ?? ''}`
+      `${typeof count === 'string' ? count : JSON.stringify(count ?? '')}`
     )}`,
     {
       headers: {

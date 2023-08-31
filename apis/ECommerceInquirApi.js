@@ -77,7 +77,11 @@ export const getCommerce2GET = (Constants, { commerce }, handlers = {}) =>
   fetch(
     `https://suggest.taobao.com/sug?code=${encodeURIComponent(
       `utf-8`
-    )}&q=${encodeURIComponent(`${commerce ?? ''}`)}`,
+    )}&q=${encodeURIComponent(
+      `${
+        typeof commerce === 'string' ? commerce : JSON.stringify(commerce ?? '')
+      }`
+    )}`,
     {
       headers: {
         Accept: 'application/json',

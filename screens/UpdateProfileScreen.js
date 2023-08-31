@@ -273,8 +273,8 @@ const UpdateProfileScreen = props => {
                     console.error(err);
                   }
                 }}
-                date={datePickerValue}
                 label={'Date of Birth'}
+                date={datePickerValue}
                 leftIconMode={'inset'}
                 mode={'date'}
                 rightIconName={'Feather/calendar'}

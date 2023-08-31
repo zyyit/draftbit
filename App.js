@@ -30,7 +30,7 @@ const App = () => {
   const [isReady, setIsReady] = React.useState(false);
   const [fontsLoaded] = useFonts({
     AbrilFatface_400Regular:
-      'https://fonts.gstatic.com/s/abrilfatface/v19/zOL64pLDlL1D99S8g8PtiKchm-BsjOLhZBY.ttf',
+      'https://fonts.gstatic.com/s/abrilfatface/v23/zOL64pLDlL1D99S8g8PtiKchm-BsjOLhZBY.ttf',
     Inter_100Thin:
       'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf',
     Inter_300Light:

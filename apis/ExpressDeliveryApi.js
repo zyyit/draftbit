@@ -18,8 +18,10 @@ export const getexpressDeliveryGET = (
 ) =>
   fetch(
     `http://www.kuaidi100.com/query?type=${encodeURIComponent(
-      `${id ?? ''}`
-    )}&postid=${encodeURIComponent(`${postId ?? ''}`)}`,
+      `${typeof id === 'string' ? id : JSON.stringify(id ?? '')}`
+    )}&postid=${encodeURIComponent(
+      `${typeof postId === 'string' ? postId : JSON.stringify(postId ?? '')}`
+    )}`,
     {
       headers: {
         Accept: 'application/json',
