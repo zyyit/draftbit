@@ -287,7 +287,12 @@ const ZhangjingjinScreen = props => {
           }
 
           return (
-            <View>
+            <View
+              style={StyleSheet.applyWidth(
+                { overflow: 'hidden', position: 'absolute' },
+                dimensions.width
+              )}
+            >
               {/* fullName */}
               <Text
                 style={StyleSheet.applyWidth(
